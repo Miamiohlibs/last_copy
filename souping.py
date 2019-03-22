@@ -5,7 +5,7 @@
 
 def souping():
     import bs4, requests
-    from bs4 import beautifulSoup AS bs
+    from bs4 import BeautifulSoup as bs
 
     url = 'https://olc1.ohiolink.edu/search/z?mu3ug+b3294810'
     page = requests.get(url).text
@@ -15,11 +15,11 @@ def souping():
     marcPath = soup.find_all('a')[15].get('href')
 
     # parse path; raise exception if path end doesn't start with marc
-    if marcPath.split('/')[-1].startswith('marc&FF'):
-        #continue loading html data
-    else:
-        print("Bad marc url. Cannot parse Ohiolink marc url.")
-        raise Exception
+    # if marcPath.split('/')[-1].startswith('marc&FF'):
+    #     #continue loading html data
+    # else:
+    #     print("Bad marc url. Cannot parse Ohiolink marc url.")
+    #     raise Exception
         #break
     # parse larger table body down to primary table rows
     # after column headers, table holdings rows start
@@ -31,7 +31,7 @@ def souping():
         cols=[x.text.strip() for x in cols]
         #store columns in postgres or pandas dataframe
         holdingsFile.append(cols)
-
+    return holdingsFile
 
 
 
