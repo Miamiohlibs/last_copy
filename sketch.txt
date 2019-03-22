@@ -1,0 +1,45 @@
+#beautiful soup
+
+url = 'https://olc1.ohiolink.edu/search/z?mu3ug+b3294810'
+page = requests.get(url).text
+soup = bs(page, "lxml")
+
+#get the path to the marc file to parse later with pymarc library; add domain later
+marcPath = soup.find_all('a')[15].get('href')
+
+# directory check
+if marcPath.split('/')[-1].startswith('marc&FF'):
+    #continue loading html data
+else:
+    print("Bad marc url. Cannot parse marc url.")
+    raise Exception
+    #break
+
+
+
+<tr class="holdingscc2tg"><td><a name="cc2tg"></a>Cuyahoga CC</td>
+<td>WEST Library</td>
+<td>&nbsp; </td>
+<td>813.0108 O113p 2003 </td>
+<td>AVAILABLE</td>
+</tr>
+
+
+#scrapy fails and successes
+
+#generate response with url?
+
+a = response.xpath('//table//tr//tr')  #don't use .getall(); it converts to array and excludes continued use of .xpath()
+## need to include additional info about each row in a
+
+table = a[6:-17]  
+
+#parse rows using table
+row = table.xpath
+
+
+    https://olc1.ohiolink.edu/search/z?mu3ug+b3294810
+
+## use scrapy to parse looking for marc display button; import pymarc and parse marc record from url.response.marc
+marcUrl = response.xpath('//*[@onclick="setRequestEventCookie()"]//@href').getall()[0]   
+
