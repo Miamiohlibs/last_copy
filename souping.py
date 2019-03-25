@@ -17,8 +17,8 @@ def souping(location,bibid):
 
     #scrapes only the broken marc table; parse with PyMarc library
     marc = str(soup.find_all('pre')).split('\n')
-    #remove first and last <pre> tags
-    marc.pop(0),marc.pop(-1)
+    #trim first and last <pre> tags from list
+    marc = marc[1:-1]
     # messy;needs to account for multiple \n within single marc field (table of
     # contents)
     #remove marc[0][0] & marc[0][-1]
@@ -34,33 +34,8 @@ def souping(location,bibid):
         cols=[x.text.strip() for x in cols]
         #store columns in postgres or pandas dataframe
         holdingsFile.append(cols)
+    #
+    # sort through and find only the 945s with local bib/item number/status
+    locals = [x for x in marc if x.startswith('945    ')]
+
     return marc, holdingsFile
-
-
-
-
-# <tr class="holdingscc2tg"><td><a name="cc2tg"></a>Cuyahoga CC</td>
-# <td>WEST Library</td>
-# <td>&nbsp; </td>
-# <td>813.0108 O113p 2003 </td>
-# <td>AVAILABLE</td>
-# </tr>
-#
-#
-# #scrapy fails and successes
-#
-# #generate response with url?
-#
-# a = response.xpath('//table//tr//tr')  #don't use .getall(); it converts to array and excludes continued use of .xpath()
-# ## need to include additional info about each row in a
-#
-# table = a[6:-17]
-#
-# #parse rows using table
-# row = table.xpath
-#
-#
-#     https://olc1.ohiolink.edu/search/z?mu3ug+b3294810
-#
-# ## use scrapy to parse looking for marc display button; import pymarc and parse marc record from url.response.marc
-# marcUrl = response.xpath('//*[@onclick="setRequestEventCookie()"]//@href').getall()[0]

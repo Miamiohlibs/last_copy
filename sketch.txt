@@ -1,19 +1,13 @@
 #beautiful soup
 
+bibid = ''
 url = 'https://olc1.ohiolink.edu/search/z?mu3ug+b3294810'
 page = requests.get(url).text
 soup = bs(page, "lxml")
 
-#get the path to the marc file to parse later with pymarc library; add domain later
-marcPath = soup.find_all('a')[15].get('href')
+souping('mu3ug', 'b4413839')
 
-# directory check
-if marcPath.split('/')[-1].startswith('marc&FF'):
-    #continue loading html data
-else:
-    print("Bad marc url. Cannot parse marc url.")
-    raise Exception
-    #break
+
 
 
 
