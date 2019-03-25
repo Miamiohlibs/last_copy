@@ -3,35 +3,38 @@
 # ideally api or list of bib records would be fed into function below
 # def souping(args, kwargs):
 
-def souping():
+#sys.argv accepts url passed along from command line
+# import sys
+# url = sys.argv[1]
+
+def souping(location,bibid):
     import bs4, requests
     from bs4 import BeautifulSoup as bs
 
-    url = 'https://olc1.ohiolink.edu/search/z?mu3ug+b3294810'
+    url = 'https://olc1.ohiolink.edu/search~S0?/z'+location+'+'+bibid+'/z'+location+'+'+bibid+'/1%2C1%2C1%2CB/marc&FF=z'+location+'+'+bibid+'&1%2C1%2C'
     page = requests.get(url).text
     soup = bs(page, "lxml")
 
-    #get path to the marc file to parse later with pymarc library; add domain later
-    marcPath = soup.find_all('a')[15].get('href')
+    #scrapes only the broken marc table; parse with PyMarc library
+    marc = str(soup.find_all('pre')).split('\n')
+    #remove first and last <pre> tags
+    marc.pop(0),marc.pop(-1)
+    # messy;needs to account for multiple \n within single marc field (table of
+    # contents)
+    #remove marc[0][0] & marc[0][-1]
 
-    # parse path; raise exception if path end doesn't start with marc
-    # if marcPath.split('/')[-1].startswith('marc&FF'):
-    #     #continue loading html data
-    # else:
-    #     print("Bad marc url. Cannot parse Ohiolink marc url.")
-    #     raise Exception
-        #break
     # parse larger table body down to primary table rows
     # after column headers, table holdings rows start
-    table = soup.find_all('table')[4].find_all('tr')[1:]
+
+    table = soup.find_all('table')[2].find_all('tr')[1:]
     #begin to parse row data into respective pieces
-    holdingsFile = []
+    holdingsFile = [] #holdings empty list
     for row in table:
         cols=row.find_all('td')
         cols=[x.text.strip() for x in cols]
         #store columns in postgres or pandas dataframe
         holdingsFile.append(cols)
-    return holdingsFile
+    return marc, holdingsFile
 
 
 
