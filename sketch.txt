@@ -1,13 +1,8 @@
 #beautiful soup
 
-bibid = ''
-url = 'https://olc1.ohiolink.edu/search/z?mu3ug+b3294810'
-page = requests.get(url).text
-soup = bs(page, "lxml")
-
 souping('mu3ug', 'b4413839')
 
-
+location,bibid = 'mu3ug', 'b4413839'
 
 
 

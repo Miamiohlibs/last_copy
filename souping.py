@@ -21,11 +21,8 @@ def souping(location,bibid):
     marc = marc[1:-1]
     # messy;needs to account for multiple \n within single marc field (table of
     # contents)
-    #remove marc[0][0] & marc[0][-1]
 
     # parse larger table body down to primary table rows
-    # after column headers, table holdings rows start
-
     table = soup.find_all('table')[2].find_all('tr')[1:]
     #begin to parse row data into respective pieces
     holdingsFile = [] #holdings empty list
