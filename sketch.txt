@@ -1,17 +1,8 @@
 #beautiful soup
 
-souping('mu3ug', 'b4413839')
+marc,holdingsFile = souping('mu3ug', 'b4413839')
 
 location,bibid = 'mu3ug', 'b4413839'
-
-
-
-<tr class="holdingscc2tg"><td><a name="cc2tg"></a>Cuyahoga CC</td>
-<td>WEST Library</td>
-<td>&nbsp; </td>
-<td>813.0108 O113p 2003 </td>
-<td>AVAILABLE</td>
-</tr>
 
 
 #scrapy fails and successes

@@ -1,12 +1,6 @@
 #beautiful soup ohiolink scraper
 
-# ideally api or list of bib records would be fed into function below
-# def souping(args, kwargs):
-
-#sys.argv accepts url passed along from command line
-# import sys
-# url = sys.argv[1]
-
+#class bibliographic:
 def souping(location,bibid):
     import bs4, requests
     from bs4 import BeautifulSoup as bs
@@ -20,32 +14,42 @@ def souping(location,bibid):
     #trim first and last <pre> tags from list
     marc = marc[1:-1]
     # messy;needs to account for multiple \n within single marc field (table of
-    # contents)
+    # contents) ; clean up marc() function
 
     # parse larger table body down to primary table rows
     #table = soup.find_all('table')[2].find_all('tr')[1:]
     table = soup.find_all('table')[2] #does not exclude location code
-
-    #begin to parse row data into respective pieces
+    rows = table.find_all('tr')[1:]
+    #empty vars
     holdingsFile = [] #holdings empty list
     a = []
-
-    rows = table.find_all('tr')[1:]
-
+    # for loop to process holdings rows
     for i in rows:
         if i.find_all('a'):
-            a = i.find('a')
+            a = i.find('a') #highly strucutured;only 'a' should always be here
             #print(a.attrs['name'])
         cols=i.find_all('td')
         cols=[x.text.strip() for x in cols]
         a = a.attrs['name'] #gets the location code
         cols.insert(0,a) #inserts the location code into
         holdingsFile.append(cols)
-    #
-    # sort through and find only the 945s with local bib/item number/status
-    #locals = [x for x in marc if x.startswith('945    ')]
-
     return marc, holdingsFile
 
-def marcProcess(marc):
-    
+
+
+def marcParse(marc):
+    import re
+    oclc,locals,isbn= [],[],[]
+    # sort through and find only the 945s with local bib/item number/status
+    for x in marc:
+        if x.startswith('001 '):
+            oclc.append(re.findall('[0-9]{8,13}', x))
+        if x.startswith('945 '):
+            locals.append(x)
+        if x.startswith('020 '):
+            isbn.append(re.findall('[0-9]{10,13}', x))
+
+    return oclc,locals,isbn
+
+
+    # merge scan of locals and isbn to avoid double scanning
