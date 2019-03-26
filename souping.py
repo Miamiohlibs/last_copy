@@ -23,16 +23,18 @@ def souping(location,bibid):
     # contents)
 
     # parse larger table body down to primary table rows
-    table = soup.find_all('table')[2].find_all('tr')[1:]
+    #table = soup.find_all('table')[2].find_all('tr')[1:]
+    table = soup.find_all('table')[2].text #does not exclude location code
     #begin to parse row data into respective pieces
     holdingsFile = [] #holdings empty list
-    for row in table:
+    for row in table: #row does not include attrs
+        a = row.find('a').attrs['name'] #gets the location code
         cols=row.find_all('td')
         cols=[x.text.strip() for x in cols]
-        #store columns in postgres or pandas dataframe
+        cols.insert(0,a) #inserts the location code into
         holdingsFile.append(cols)
     #
     # sort through and find only the 945s with local bib/item number/status
-    locals = [x for x in marc if x.startswith('945    ')]
+    #locals = [x for x in marc if x.startswith('945    ')]
 
     return marc, holdingsFile
