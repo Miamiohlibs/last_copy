@@ -24,13 +24,21 @@ def souping(location,bibid):
 
     # parse larger table body down to primary table rows
     #table = soup.find_all('table')[2].find_all('tr')[1:]
-    table = soup.find_all('table')[2].text #does not exclude location code
+    table = soup.find_all('table')[2] #does not exclude location code
+
     #begin to parse row data into respective pieces
     holdingsFile = [] #holdings empty list
-    for row in table: #row does not include attrs
-        a = row.find('a').attrs['name'] #gets the location code
-        cols=row.find_all('td')
+    a = []
+
+    rows = table.find_all('tr')[1:]
+
+    for i in rows:
+        if i.find_all('a'):
+            a = i.find('a')
+            #print(a.attrs['name'])
+        cols=i.find_all('td')
         cols=[x.text.strip() for x in cols]
+        a = a.attrs['name'] #gets the location code
         cols.insert(0,a) #inserts the location code into
         holdingsFile.append(cols)
     #
@@ -38,3 +46,6 @@ def souping(location,bibid):
     #locals = [x for x in marc if x.startswith('945    ')]
 
     return marc, holdingsFile
+
+def marcProcess(marc):
+    
