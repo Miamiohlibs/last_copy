@@ -35,8 +35,6 @@ def souping(location,bibid):
         holdingsFile.append(cols)
     return marc, holdingsFile
 
-
-
 def marcParse(marc):
     import re
     oclc,locals,isbn= [],[],[]
@@ -51,5 +49,8 @@ def marcParse(marc):
 
     return oclc,locals,isbn
 
+def holdingsParse(holdingsFile):
+    #parsing the holdings file into table schema
 
-    # merge scan of locals and isbn to avoid double scanning
+def awsPush(marc):
+    #storing in private bucket for error logging purposes at a later Date

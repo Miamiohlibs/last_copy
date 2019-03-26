@@ -11,6 +11,8 @@ requests = "*"
 "pickle5" = "*"
 pymarc = "*"
 url = "*"
+sqlalchemy = "*"
+"boto3" = "*"
 
 [dev-packages]
 
