@@ -46,11 +46,22 @@ def marcParse(marc):
             locals.append(x)
         if x.startswith('020 '):
             isbn.append(re.findall('[0-9]{10,13}', x))
+        #add 022
+        #add 019 previous record merges of oclc numbers
 
     return oclc,locals,isbn
 
-def holdingsParse(holdingsFile):
-    #parsing the holdings file into table schema
+# sql alchemy fields
+# make sure to include the following sql fields using boto3
+# last_scraped_time, total_times_scraped
 
-def awsPush(marc):
-    #storing in private bucket for error logging purposes at a later Date
+
+#start to parse the objects into sql
+#def sqlParse(oclc,locals,isbn,holdingsFile):
+#    import
+
+#def holdingsParse(holdingsFile):
+#     #parsing the holdings file into table schema
+#
+# def awsPush(marc):
+#     #storing in private bucket for error logging purposes at a later Date
