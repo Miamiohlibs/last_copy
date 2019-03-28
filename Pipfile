@@ -10,11 +10,9 @@ scrapy = "*"
 requests = "*"
 "pickle5" = "*"
 pymarc = "*"
-url = "*"
 sqlalchemy = "*"
 "boto3" = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.6"
