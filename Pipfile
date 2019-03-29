@@ -12,6 +12,7 @@ requests = "*"
 pymarc = "*"
 sqlalchemy = "*"
 "boto3" = "*"
+user-agent = "*"
 
 [dev-packages]
 

@@ -4,10 +4,21 @@
 def souping(location,bibid):
     import bs4, requests
     from bs4 import BeautifulSoup as bs
+    from user_agent import generate_user_agent #https://hackernoon.com/web-scraping-tutorial-with-python-tips-and-tricks-db070e70e071
+    # dev variables
+    #location,bibid = 'mu3ug', 'b4413839'
 
     url = 'https://olc1.ohiolink.edu/search~S0?/z'+location+'+'+bibid+'/z'+location+'+'+bibid+'/1%2C1%2C1%2CB/marc&FF=z'+location+'+'+bibid+'&1%2C1%2C'
-    page = requests.get(url).text
-    soup = bs(page, "lxml")
+    headers = {'User-Agent': generate_user_agent(device_type="desktop", os=('mac', 'linux'))}
+    try:
+        page = requests.get(url, timeout=5, headers=headers)
+        if page.status_code == 200:
+            soup = bs(page.text, "lxml")
+        else:
+            print(page.status_code)
+    except requests.Timeout as e:
+        print("It is time to timeout")
+        print(str(e))
 
     #scrapes only the broken marc table; parse with PyMarc library
     marc = str(soup.find_all('pre')).split('\n')
